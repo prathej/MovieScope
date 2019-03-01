@@ -48,7 +48,7 @@ Add the following line to your ~/.gradle/gradle.properties with an API key from 
 
 ## Author
 
-##Prahlad Vidyanand##
+## Prahlad Vidyanand ##
 
 Android Developer, Technology enthusiast, Photographer and Blogger.
 
