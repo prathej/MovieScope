@@ -50,7 +50,8 @@ Add the following line to your ~/.gradle/gradle.properties with an API key from 
 
 **Prahlad Vidyanand**
 
-[Twitter](https://twitter.com/prathej) [Linkedin](www.linkedin.com/in/prahlad-v) 
+[Twitter](https://twitter.com/prathej)
+[Linkedin](www.linkedin.com/in/prahlad-v) 
 
 Android Developer, Technology enthusiast, Photographer and Blogger.
 
@@ -68,8 +69,4 @@ Android Developer, Technology enthusiast, Photographer and Blogger.
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-
-
-
 
