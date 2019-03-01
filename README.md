@@ -36,19 +36,19 @@ Add the following line to your ~/.gradle/gradle.properties with an API key from 
 
 ## Resources
 
-- (http://square.github.io/retrofit/)
-- (http://jakewharton.github.io/butterknife/)
-- (https://square.github.io/picasso/)
-- (https://github.com/ReactiveX/RxJava)
-- (https://github.com/ReactiveX/RxAndroid)
-- (https://github.com/JakeWharton/timber)
-- (https://developer.android.com/topic/libraries/architecture)
-- (https://developer.android.com/training/constraint-layout)
-- (https://www.androidhive.info/RxJava/tutorials/)
+- http://square.github.io/retrofit/
+- http://jakewharton.github.io/butterknife/
+- https://square.github.io/picasso/
+- https://github.com/ReactiveX/RxJava
+- https://github.com/ReactiveX/RxAndroid
+- https://github.com/JakeWharton/timber
+- https://developer.android.com/topic/libraries/architecture
+- https://developer.android.com/training/constraint-layout
+- https://www.androidhive.info/RxJava/tutorials/
 
 ## Author
 
-**Prahlad Vidyanand**
+##Prahlad Vidyanand##
 
 Android Developer, Technology enthusiast, Photographer and Blogger.
 
