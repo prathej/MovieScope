@@ -50,10 +50,10 @@ Add the following line to your ~/.gradle/gradle.properties with an API key from 
 
 **Prahlad Vidyanand**
 
+Android Developer, Technology enthusiast, Photographer and Blogger.
+
 [Twitter](https://twitter.com/prathej)
 [Linkedin](www.linkedin.com/in/prahlad-v) 
-
-Android Developer, Technology enthusiast, Photographer and Blogger.
 
 
     Copyright 2019 Prahlad Vidyanand
