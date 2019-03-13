@@ -58,4 +58,6 @@
 
     <string name="review_language">en-US</string>
     <string name="trailer_language">en-US</string>
+
+    <string name="movie_details_trailer_desc">Play the trailer</string>
 </resources>

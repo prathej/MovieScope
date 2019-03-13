@@ -1,0 +1,10 @@
+<androidx.appcompat.widget.Toolbar android:id="@+id/toolbar"
+    style="@style/Toolbar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    app:layout_collapseMode="pin"
+    android:theme="@style/ActionBar.ThemeOverlay"
+    app:popupTheme="@style/ActionBar.PopupThemeOverlay"
+    app:titleTextAppearance="@style/ActionBar.TitleText" />

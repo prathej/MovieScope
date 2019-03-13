@@ -71,6 +71,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      String thumbnailURL = "https://img.youtube.com/vi/".concat(id).concat("/hqdefault.jpg");
         Picasso.get()
                 .load(thumbnailURL)
+                .fit()
+                .centerCrop()
                 .placeholder(R.drawable.thumbnail)
                 .into(((MyItemHolder)holder)
                 .imageView);

@@ -92,4 +92,10 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.0.0'
     annotationProcessor 'androidx.room:room-compiler:2.0.0'
 
+    //cardView
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+
+    implementation 'com.github.ksoichiro:android-observablescrollview:1.5.2'
+
 }

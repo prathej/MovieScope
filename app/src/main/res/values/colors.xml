@@ -20,4 +20,8 @@
     <color name="colorPrimaryDark">#003d00</color>
     <color name="colorAccent">#f44336</color>
     <color name="colorPrimaryLight">#619648</color>
+    
+    <color name="body_text_white">#FFFFFFFF</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

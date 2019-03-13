@@ -30,10 +30,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Author"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textColor="#000000"
-        android:fontFamily="sans-serif-condensed"
-        android:textStyle="bold"/>
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        />
 
     <TextView
         android:id="@+id/tv_review"
@@ -43,5 +44,6 @@
         android:ellipsize="end"
         android:textColor="#000000"
         android:maxLines="5"
-        android:fontFamily="sans-serif-condensed"/>
+        android:textSize="14sp"
+        android:fontFamily="sans-serif"/>
 </LinearLayout>

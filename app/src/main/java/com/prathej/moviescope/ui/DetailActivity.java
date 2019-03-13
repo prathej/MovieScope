@@ -19,14 +19,17 @@ package com.prathej.moviescope.ui;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.prathej.moviescope.AppExecutors;
 import com.prathej.moviescope.R;
 import com.prathej.moviescope.RecyclerClickListener;
@@ -50,6 +53,8 @@ import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -81,7 +86,6 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
     TrailerAdapter trailerAdapter;
 
     Movie mFavMovie;
-    Boolean isFav = false;
 
     @BindView(R.id.noTrailerView)
     TextView notrailerview;
@@ -107,9 +111,24 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
     @BindView(R.id.textview_release_date)
     TextView mTextviewReleaseDate;
 
+    @BindView(R.id.trailer_main_imageView)
+    ImageView mMainTrailerView;
+
+    @BindView(R.id.trailer_main)
+    FrameLayout mCoverContainer;
+
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    ActionBar mActionBar;
+
+    @BindView(R.id.collapsing_container)
+    CollapsingToolbarLayout mCollapseToolbar;
+
+    @BindView(R.id.movie_scroll_view)
+    androidx.core.widget.NestedScrollView mScrollView;
 
     ApiService mApiService;
-
 
     AppDatabase mDb;
 
@@ -143,17 +162,11 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
 
         Picasso.get()
                 .load(posterUrl)
-                .resize(225, 280)
+                //  .resize(225, 280)
                 .error(R.drawable.ic_error_outline_black_48dp)
                 .placeholder(R.drawable.ic_sync_black_48dp)
                 .into(mImageviewPoster);
 
-
-        ActionBar actionBar = this.getSupportActionBar();
-
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
 
         String overView = mMovie.getOverview();
         if (overView == null) {
@@ -161,7 +174,8 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
             overView = getResources().getString(R.string.no_summary_found);
         }
         mTextviewOverview.setText(overView);
-        mTextviewVoteAverage.setText(mMovie.getDetailedVoteAverage());
+        String avgVote = mMovie.getDetailedVoteAverage() ;
+        mTextviewVoteAverage.setText(avgVote);
 
 
         String releaseDate = getFormattedReleaseData(mMovie.getReleaseDate());
@@ -169,6 +183,7 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
         mTextviewReleaseDate.setText(releaseDate);
 
         loadTrailers();
+
 
         LinearLayoutManager trailerLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mTrailersRecyclerView.setLayoutManager(trailerLayoutManager);
@@ -184,6 +199,16 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
             }
         }));
 
+        mMainTrailerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://www.youtube.com/watch?v=".concat(mTrailerList.get(0).getKey());
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+
         loadReviews();
         LinearLayoutManager reviewLayoutManager = new LinearLayoutManager(this);
         mReviewsRecyclerView.setLayoutManager(reviewLayoutManager);
@@ -196,23 +221,70 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
                 startActivity(i);
             }
         }));
+
+        if (mToolbar != null) {
+            ViewCompat.setElevation(mToolbar, getResources().getDimension(R.dimen.toolbar_elevation));
+            mToolbar.setBackgroundColor(getResources().getColor(R.color.transparent));
+            trySetupActionBar();
+            mToolbar.setTitleTextColor(getResources().getColor(R.color.transparent));
+            changeStatusbarColor();
+        }
+
+        mCollapseToolbar.setTitle(mMovie.getOriginalTitle());
+        mCollapseToolbar.setExpandedTitleColor(getResources().getColor(R.color.transparent));
+        mCollapseToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.body_text_white));
+    }
+
+    private void changeStatusbarColor() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, this.getTheme()));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
+    }
+
+    private void trySetupActionBar() {
+        this.setSupportActionBar(mToolbar);
+        mActionBar = this.getSupportActionBar();
+        if (mActionBar != null) {
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+            mActionBar.setDisplayShowHomeEnabled(true);
+        }
     }
 
 
+    private void loadMainTrailer() {
+        Log.d(LOG_TAG, "inside load main Trailer block");
+        if (mTrailerList.size() == 0) {
+            Log.d(LOG_TAG, "trailer list is null");
+            Picasso.get()
+                    .load(R.drawable.ic_error_outline_black_48dp)
+                    //.placeholder(R.drawable.thumbnail)
+                    .into(mMainTrailerView);
+        } else {
+            String id = mTrailerList.get(0).getKey();
+            String thumbnailURL = "https://img.youtube.com/vi/".concat(id).concat("/hqdefault.jpg");
+            Picasso.get()
+                    .load(thumbnailURL)
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.thumbnail)
+                    .into(mMainTrailerView);
+        }
+    }
 
     private void loadTrailers() {
+        Log.d(LOG_TAG, "inside load Trailer block");
         disposable.add(
                 mApiService.getTrailers(mMovie.getId(), getString(R.string.trailer_language))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableObserver<TrailerResponse>() {
-
-
                             @Override
                             public void onNext(TrailerResponse trailerResponse) {
                                 List<Trailer> trailers = trailerResponse.getTrailersList();
                                 mTrailerList = trailers;
-                                //mTrailersRecyclerView.setAdapter(new TrailerAdapter(getApplicationContext(),trailers));
                                 if (mTrailerList.size() == 0) {
                                     mTrailersRecyclerView.setVisibility(View.INVISIBLE);
                                     notrailerview.setVisibility(View.VISIBLE);
@@ -220,6 +292,8 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
                                     trailerAdapter = new TrailerAdapter(DetailActivity.this, mTrailerList);
                                     mTrailersRecyclerView.setAdapter(trailerAdapter);
                                 }
+
+                                loadMainTrailer();
                             }
 
                             @Override
@@ -290,7 +364,7 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mFavoriteButton.setImageResource(android.R.drawable.btn_star_big_on);
+                        mFavoriteButton.setImageResource(R.drawable.ic_favorite_black_72dp_on);
                     }
                 });
             }
@@ -317,7 +391,7 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mFavoriteButton.setImageResource(android.R.drawable.btn_star_big_off);
+                        mFavoriteButton.setImageResource(R.drawable.ic_favorite_border_black_72dp_off);
                     }
                 });
             }
@@ -347,10 +421,10 @@ public class DetailActivity extends AppCompatActivity implements isFavoriteTaskC
     public void onTaskCompleted(Movie movie) {
         mFavMovie = movie;
         if (mFavMovie != null) {
-            mFavoriteButton.setImageResource(android.R.drawable.btn_star_big_on);
+            mFavoriteButton.setImageResource(R.drawable.ic_favorite_black_72dp_on);
 
         } else {
-            mFavoriteButton.setImageResource(android.R.drawable.btn_star_big_off);
+            mFavoriteButton.setImageResource(R.drawable.ic_favorite_border_black_72dp_off);
 
         }
 

@@ -21,4 +21,12 @@
     <dimen name="activity_padding_bottom">10dp</dimen>
     <dimen name="activity_padding_left">10dp</dimen>
     <dimen name="activity_padding_right">10dp</dimen>
+
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+
+    <!-- Toolbar -->
+    <dimen name="toolbar_elevation">8dp</dimen>
+
+    <dimen name="app_barElevation">4dp</dimen>
 </resources>
